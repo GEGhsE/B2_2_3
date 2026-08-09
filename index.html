@@ -2467,6 +2467,13 @@ function buildProblems(stage4Count = 5) {
 /* ===== 메인 앱 ===== */
 function App() {
   const [step, setStep] = useState('intro');
+  // [수정] 아래 4개는 원래 첫 화면(intro) 블록 안에 있었습니다.
+  // 화면이 바뀌면 이 4개가 실행되지 않아 훅 개수가 달라지고,
+  // 그 때문에 '모험 시작'을 누르면 화면이 멈추는 문제가 있었습니다.
+  const [showSettings, setShowSettings] = React.useState(false);
+  const [inputUrl, setInputUrl] = React.useState('');
+  const [settingMsg, setSettingMsg] = React.useState('');
+  const [studentLink, setStudentLink] = React.useState('');
   const [students, setStudents] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -5591,10 +5598,6 @@ function App() {
 
   /* ── INTRO ── */
   if (step === 'intro') {
-    const [showSettings, setShowSettings] = React.useState(false);
-    const [inputUrl, setInputUrl] = React.useState('');
-    const [settingMsg, setSettingMsg] = React.useState('');
-    const [studentLink, setStudentLink] = React.useState('');
     const isStudentLink = !!window.__IS_STUDENT_LINK__;
     const currentUrl = getGasUrl();
     const isConnected = isValidGasUrl(currentUrl);

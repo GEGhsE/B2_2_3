@@ -5601,6 +5601,11 @@ function App() {
     const isStudentLink = !!window.__IS_STUDENT_LINK__;
     const currentUrl = getGasUrl();
     const isConnected = isValidGasUrl(currentUrl);
+    // [수정] 이미 연결돼 있으면 설정을 다시 열어도 학생용 링크가 보이도록 계산해 둡니다.
+    //   (예전에는 '연결하기'를 누른 그 순간에만 링크가 나왔습니다.)
+    const shownStudentLink = studentLink
+      || (isConnected ? (location.origin + location.pathname + '#c=' + encodeURIComponent(currentUrl)) : '');
+
 
     const handleConnect = async () => {
       const url = inputUrl.trim();
@@ -5650,7 +5655,12 @@ function App() {
           isConnected && /*#__PURE__*/React.createElement("span", { style:{fontSize:13, background:'#dcfce7', color:'#166534', padding:'2px 10px', borderRadius:999} }, "\uC5F0\uB3D9 \uC911")
         ),
         showSettings && /*#__PURE__*/React.createElement("div", {
-          style:{ marginTop:12, background:'white', border:'2px solid #bbf7d0', borderRadius:20, padding:'20px 24px', textAlign:'left', boxShadow:'0 4px 16px rgba(0,0,0,0.08)' }
+          // [수정] 화면이 1280x800 으로 고정돼 있어 설정 내용이 길어지면 아래가 잘렸습니다.
+          //   화면 위에 겹쳐 띄우고, 넘치면 이 안에서 스크롤되도록 바꿉니다.
+          style:{ position:'absolute', left:'50%', top:'50%', transform:'translate(-50%, -50%)',
+                  width:'min(720px, 92%)', maxHeight:'86%', overflowY:'auto', zIndex:9000,
+                  background:'white', border:'2px solid #bbf7d0', borderRadius:20,
+                  padding:'20px 24px', textAlign:'left', boxShadow:'0 10px 40px rgba(0,0,0,0.25)' }
         },
           /*#__PURE__*/React.createElement("p", { style:{fontSize:14, color:'#64748b', margin:'0 0 12px'} },
             "Apps Script \uC6F9\uC571 /exec \uC8FC\uC18C\uB97C \uC785\uB825\uD558\uBA74 \uC774 \uC571\uC774 \uC120\uC0DD\uB2D8\uC758 \uAD6C\uAE00 \uC2DC\uD2B8\uC5D0 \uC5F0\uACB0\uB429\uB2C8\uB2E4."
@@ -5669,17 +5679,17 @@ function App() {
             }, "\uC5F0\uACB0\uD558\uAE30")
           ),
           settingMsg && /*#__PURE__*/React.createElement("p", { style:{fontSize:13, color: settingMsg.startsWith('✅') ? '#15803d' : '#dc2626', margin:'0 0 10px'} }, settingMsg),
-          studentLink && /*#__PURE__*/React.createElement("div", { style:{background:'#f0fdf4', border:'1px solid #bbf7d0', borderRadius:10, padding:'10px 14px', display:'flex', alignItems:'center', gap:10} },
+          shownStudentLink && /*#__PURE__*/React.createElement("div", { style:{background:'#f0fdf4', border:'1px solid #bbf7d0', borderRadius:10, padding:'10px 14px', display:'flex', alignItems:'center', gap:10} },
             /*#__PURE__*/React.createElement("div", { style:{flex:1, minWidth:0} },
               /*#__PURE__*/React.createElement("div", { style:{fontSize:12, color:'#166534', fontWeight:700, marginBottom:6} }, "\uD559\uC0DD\uC6A9 \uB9C1\uD06C"),
               /*#__PURE__*/React.createElement("input", {
-                type:"text", readOnly:true, value:studentLink,
+                type:"text", readOnly:true, value:shownStudentLink,
                 onClick: (ev) => { ev.target.select(); },
                 style:{ width:'100%', padding:'8px 10px', fontSize:12, border:'1px solid #bbf7d0', borderRadius:8, background:'#ffffff', color:'#166534', fontFamily:'inherit', boxSizing:'border-box' }
               })
             ),
             /*#__PURE__*/React.createElement("button", {
-              onClick: () => { navigator.clipboard.writeText(studentLink); },
+              onClick: () => { navigator.clipboard.writeText(shownStudentLink); },
               style:{ padding:'6px 14px', background:'#16a34a', color:'white', border:'none', borderRadius:8, fontSize:13, fontWeight:700, cursor:'pointer', whiteSpace:'nowrap', fontFamily:'inherit' }
             }, "\uBCF5\uC0AC")
           ),

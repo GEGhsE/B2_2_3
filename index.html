@@ -5670,7 +5670,14 @@ function App() {
           ),
           settingMsg && /*#__PURE__*/React.createElement("p", { style:{fontSize:13, color: settingMsg.startsWith('✅') ? '#15803d' : '#dc2626', margin:'0 0 10px'} }, settingMsg),
           studentLink && /*#__PURE__*/React.createElement("div", { style:{background:'#f0fdf4', border:'1px solid #bbf7d0', borderRadius:10, padding:'10px 14px', display:'flex', alignItems:'center', gap:10} },
-            /*#__PURE__*/React.createElement("span", { style:{fontSize:12, color:'#166534', flex:1, wordBreak:'break-all'} }, "\uD559\uC0DD\uC6A9 \uB9C1\uD06C: ", studentLink),
+            /*#__PURE__*/React.createElement("div", { style:{flex:1, minWidth:0} },
+              /*#__PURE__*/React.createElement("div", { style:{fontSize:12, color:'#166534', fontWeight:700, marginBottom:6} }, "\uD559\uC0DD\uC6A9 \uB9C1\uD06C"),
+              /*#__PURE__*/React.createElement("input", {
+                type:"text", readOnly:true, value:studentLink,
+                onClick: (ev) => { ev.target.select(); },
+                style:{ width:'100%', padding:'8px 10px', fontSize:12, border:'1px solid #bbf7d0', borderRadius:8, background:'#ffffff', color:'#166534', fontFamily:'inherit', boxSizing:'border-box' }
+              })
+            ),
             /*#__PURE__*/React.createElement("button", {
               onClick: () => { navigator.clipboard.writeText(studentLink); },
               style:{ padding:'6px 14px', background:'#16a34a', color:'white', border:'none', borderRadius:8, fontSize:13, fontWeight:700, cursor:'pointer', whiteSpace:'nowrap', fontFamily:'inherit' }

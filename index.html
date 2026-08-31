@@ -2182,10 +2182,10 @@ ans: [Math.floor(n / 10).toString(), (n % 10).toString()],
 hint: `'${NUM_WORDS[ten].k}'은 십모형 ${Math.floor(n / 10)}개,\n'${K_UNITS[unit]}'은 낱개 ${unit}개를 의미해요.`
 };
 });
-// 3단계: 수 읽기 (11~49 중 랜덤 3개, 2단계와 겹치지 않도록)
+// 3단계: 수 읽기 (11~49 중 랜덤 3개, 매번 새로 무작위 선택)
 const readPool = shuffle(Array.from({
 length: 39
-}, (_, i) => i + 11).filter(n => n % 10 !== 0 && !twoDigits.includes(n))).slice(0, 3);
+}, (_, i) => i + 11).filter(n => n % 10 !== 0)).slice(0, 3);
 const p3 = [];
 readPool.forEach(n => {
 p3.push({
